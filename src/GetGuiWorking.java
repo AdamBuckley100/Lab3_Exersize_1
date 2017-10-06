@@ -72,6 +72,8 @@ public class GetGuiWorking extends JFrame {
 	private JTextField textField_4;
 	private JButton btnRadiusSubmit;
 	private JTextField textField_5;
+	private JLabel lblNewLabel;
+	private JLabel lblCalculationOutputbox;
 
 	public GetGuiWorking() {
 
@@ -83,17 +85,10 @@ public class GetGuiWorking extends JFrame {
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
-
-		//		GridBagLayout gridBagLayout = new GridBagLayout();
-		//		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-		//		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-		//		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		//		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		//		getContentPane().setLayout(gridBagLayout);
 
 		JLabel lblAnnualInterestRate = new JLabel("Annual Interest Rate");
 		GridBagConstraints gbc_lblAnnualInterestRate = new GridBagConstraints();
@@ -112,6 +107,15 @@ public class GetGuiWorking extends JFrame {
 		textField.setColumns(10);
 
 		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				// take the 3 finance inputs and do the calcs.
+				// server will computer monthly payment and total payment
+				
+			}
+		});
 		GridBagConstraints gbc_btnSubmit = new GridBagConstraints();
 		gbc_btnSubmit.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSubmit.gridx = 6;
@@ -149,6 +153,13 @@ public class GetGuiWorking extends JFrame {
 		gbc_textField_2.gridy = 3;
 		getContentPane().add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
+		
+		lblCalculationOutputbox = new JLabel("Calculation Output (box below):");
+		GridBagConstraints gbc_lblCalculationOutputbox = new GridBagConstraints();
+		gbc_lblCalculationOutputbox.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCalculationOutputbox.gridx = 1;
+		gbc_lblCalculationOutputbox.gridy = 4;
+		contentPane.add(lblCalculationOutputbox, gbc_lblCalculationOutputbox);
 
 		textField_3 = new JTextField();
 		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
@@ -159,14 +170,14 @@ public class GetGuiWorking extends JFrame {
 		gbc_textField_3.gridy = 5;
 		getContentPane().add(textField_3, gbc_textField_3);
 		textField_3.setColumns(10);
-		
+
 		lblRadius = new JLabel("Radius");
 		GridBagConstraints gbc_lblRadius = new GridBagConstraints();
 		gbc_lblRadius.insets = new Insets(0, 0, 5, 5);
 		gbc_lblRadius.gridx = 1;
 		gbc_lblRadius.gridy = 7;
 		contentPane.add(lblRadius, gbc_lblRadius);
-		
+
 		textField_4 = new JTextField();
 		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
 		gbc_textField_4.anchor = GridBagConstraints.WEST;
@@ -175,39 +186,38 @@ public class GetGuiWorking extends JFrame {
 		gbc_textField_4.gridy = 7;
 		contentPane.add(textField_4, gbc_textField_4);
 		textField_4.setColumns(10);
-		
-		
+
 		// Equivalent action performed is pressing the button
 		btnRadiusSubmit = new JButton("Radius Submit");
 		btnRadiusSubmit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+
 				// the button has been pressed, take what the user put into the field and 
 				// do the calculations (on the server side). After that, output the result 
 				// to the user via a test box.
-				
+
 				try {
 					// get what the user put in for radius.
 					double theRadius = Double.valueOf( textField_4.getText() );
-					
+
 					// now pass that double variable to the server.
 					toServer.writeDouble(theRadius);
 					toServer.flush();
-					
+
 					// Get area from the server
 					double area = fromServer.readDouble();
-					
+
 					String theAreaAsAString = String.valueOf(area);
-					
+
 					// Display to the text area the area itself (displaying to textField_5)
 					textField_5.setText(theAreaAsAString);
-					
+
 				}
 				catch (IOException ex) {
 					System.out.println("error");
 				}
-				
+
 			}
 		});
 		GridBagConstraints gbc_btnRadiusSubmit = new GridBagConstraints();
@@ -215,15 +225,22 @@ public class GetGuiWorking extends JFrame {
 		gbc_btnRadiusSubmit.gridx = 6;
 		gbc_btnRadiusSubmit.gridy = 7;
 		contentPane.add(btnRadiusSubmit, gbc_btnRadiusSubmit);
+				
+				lblNewLabel = new JLabel("The Area of the inputted radius is: ");
+				GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+				gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+				gbc_lblNewLabel.gridx = 1;
+				gbc_lblNewLabel.gridy = 9;
+				contentPane.add(lblNewLabel, gbc_lblNewLabel);
 		
-		textField_5 = new JTextField();
-		GridBagConstraints gbc_textField_5 = new GridBagConstraints();
-		gbc_textField_5.insets = new Insets(0, 0, 0, 5);
-		gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_5.gridx = 3;
-		gbc_textField_5.gridy = 9;
-		contentPane.add(textField_5, gbc_textField_5);
-		textField_5.setColumns(10);
+				textField_5 = new JTextField();
+				GridBagConstraints gbc_textField_5 = new GridBagConstraints();
+				gbc_textField_5.insets = new Insets(0, 0, 5, 5);
+				gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
+				gbc_textField_5.gridx = 3;
+				gbc_textField_5.gridy = 9;
+				contentPane.add(textField_5, gbc_textField_5);
+				textField_5.setColumns(10);
 
 		// Below -> to make this class the client:
 		try {

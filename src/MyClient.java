@@ -13,6 +13,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+// Ignore this class, its just here for comparison purposes.
+
 //import MyClient.Listener;
 
 //import Client.Listener;

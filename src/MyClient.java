@@ -137,6 +137,10 @@ public class MyClient extends JFrame {
 	// IO streams
 	private DataOutputStream toServer;
 	private DataInputStream fromServer;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
 
 //	Connection conn;
 //	Statement theStatement;
@@ -166,33 +170,82 @@ public class MyClient extends JFrame {
 
 	public MyClient() {
 		
-		// Panel p to hold the label and text field
-		JPanel p = new JPanel();
-		p.setLayout(new BorderLayout());
-		p.add(new JLabel("Annual interest rate"), BorderLayout.WEST);
-		p.add(jtf, BorderLayout.CENTER);
-		jtf.setHorizontalAlignment(JTextField.RIGHT);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		getContentPane().setLayout(gridBagLayout);
+		
+		JLabel lblAnnualInterestRate = new JLabel("Annual Interest Rate");
+		GridBagConstraints gbc_lblAnnualInterestRate = new GridBagConstraints();
+		gbc_lblAnnualInterestRate.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAnnualInterestRate.anchor = GridBagConstraints.EAST;
+		gbc_lblAnnualInterestRate.gridx = 0;
+		gbc_lblAnnualInterestRate.gridy = 1;
+		getContentPane().add(lblAnnualInterestRate, gbc_lblAnnualInterestRate);
+		
+		textField = new JTextField();
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.gridwidth = 2;
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.anchor = GridBagConstraints.WEST;
+		gbc_textField.gridx = 1;
+		gbc_textField.gridy = 1;
+		getContentPane().add(textField, gbc_textField);
+		textField.setColumns(10);
+		
+		JButton btnSubmit = new JButton("Submit");
+		GridBagConstraints gbc_btnSubmit = new GridBagConstraints();
+		gbc_btnSubmit.insets = new Insets(0, 0, 5, 0);
+		gbc_btnSubmit.gridx = 8;
+		gbc_btnSubmit.gridy = 1;
+		getContentPane().add(btnSubmit, gbc_btnSubmit);
+		
+		JLabel lblNumberOfYears = new JLabel("Number of Years");
+		GridBagConstraints gbc_lblNumberOfYears = new GridBagConstraints();
+		gbc_lblNumberOfYears.anchor = GridBagConstraints.EAST;
+		gbc_lblNumberOfYears.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNumberOfYears.gridx = 0;
+		gbc_lblNumberOfYears.gridy = 2;
+		getContentPane().add(lblNumberOfYears, gbc_lblNumberOfYears);
+		
+		textField_1 = new JTextField();
+		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
+		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
+		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_1.gridx = 1;
+		gbc_textField_1.gridy = 2;
+		getContentPane().add(textField_1, gbc_textField_1);
+		textField_1.setColumns(10);
+		
+		JLabel lblLoanAmount = new JLabel("Loan Amount");
+		GridBagConstraints gbc_lblLoanAmount = new GridBagConstraints();
+		gbc_lblLoanAmount.anchor = GridBagConstraints.EAST;
+		gbc_lblLoanAmount.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLoanAmount.gridx = 0;
+		gbc_lblLoanAmount.gridy = 3;
+		getContentPane().add(lblLoanAmount, gbc_lblLoanAmount);
+		
+		textField_2 = new JTextField();
+		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
+		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
+		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_2.gridx = 1;
+		gbc_textField_2.gridy = 3;
+		getContentPane().add(textField_2, gbc_textField_2);
+		textField_2.setColumns(10);
+		
+		textField_3 = new JTextField();
+		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
+		gbc_textField_3.anchor = GridBagConstraints.WEST;
+		gbc_textField_3.gridwidth = 8;
+		gbc_textField_3.insets = new Insets(0, 0, 0, 5);
+		gbc_textField_3.gridx = 0;
+		gbc_textField_3.gridy = 5;
+		getContentPane().add(textField_3, gbc_textField_3);
+		textField_3.setColumns(10);
 
-		setLayout(new BorderLayout());
-		add(p, BorderLayout.NORTH);
-		add(new JScrollPane(jta), BorderLayout.CENTER);
-
-		JPanel p1 = new JPanel();
-		p1.setLayout(new BorderLayout());
-		p1.add(new JLabel("number of years"), BorderLayout.WEST);
-		p1.add(jtf, BorderLayout.CENTER);
-		jtf.setHorizontalAlignment(JTextField.RIGHT);
-
-		setLayout(new BorderLayout());
-		add(p1, BorderLayout.NORTH);
-		add(new JScrollPane(jta), BorderLayout.CENTER);
-
-		jtf.addActionListener(new Listener()); // Register listener
-
-		setTitle("Client");
-		setSize(500, 300);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true); // It is necessary to show the frame here!
 
 		try {
 			// Create a socket to connect to the server

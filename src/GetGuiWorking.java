@@ -111,8 +111,43 @@ public class GetGuiWorking extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				// take the 3 finance inputs and do the calcs.
-				// server will computer monthly payment and total payment
+				
+				
+				// the button has been pressed, take what the user put into the field and 
+				// do the calculations (on the server side). After that, output the result 
+				// to the user via a test box.
+
+				try {
+					
+					double theAnnualInterestRate = Double.valueOf( textField.getText() );
+					double theNumberOfYears = Double.valueOf( textField_1.getText() );
+					double theLoanAmount = Double.valueOf( textField_2.getText() );
+					
+					// now pass those doubles variable to the server.
+					toServer.writeDouble(theAnnualInterestRate);
+					toServer.writeDouble(theNumberOfYears);
+					toServer.writeDouble(theLoanAmount);
+					
+					// this flush might have to go after each of the three above lines?
+					toServer.flush();
+
+					// Get area from the server
+					double theResultingTotal = fromServer.readDouble();
+
+					String theTotalAsAString = String.valueOf(theResultingTotal);
+					
+					double theNumberOfMonthsOfTheYears = theNumberOfYears * 12;
+					
+					double theMonthlyInstallments = theResultingTotal/theNumberOfMonthsOfTheYears;
+
+					// Display to the text area the area itself (displaying to textField_3)
+					textField_3.setText("Total amount you have to repay is: €" + theTotalAsAString +
+							". Pay this in monthly installments of: €" + theMonthlyInstallments);
+				}
+				catch (IOException ex) {
+					System.out.println("error");
+				}
+				
 				
 			}
 		});

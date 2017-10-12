@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Server extends JFrame {
+	
 	// Text area for displaying contents
 	private JTextArea jta = new JTextArea();
 
@@ -23,6 +24,7 @@ public class Server extends JFrame {
 		setVisible(true); // It is necessary to show the frame here!
 
 		try {
+			
 			// Create a server socket (why is the below line never used?)
 			ServerSocket serverSocket = new ServerSocket(8000); // 8000 is port
 			jta.append("Server started at " + new Date() + '\n');
@@ -38,16 +40,21 @@ public class Server extends JFrame {
 
 			while (true) {
 				// Receive radius from the client
-				double radius = inputFromClient.readDouble();
+				double theAnnualInterestRate = inputFromClient.readDouble();
+				double theNumberOfYears = inputFromClient.readDouble();
+				double theLoanAmount = inputFromClient.readDouble();
 
-				// Compute area
-				double area = radius * radius * Math.PI;
+				double theAnnualInterestRateAsADecimal = theAnnualInterestRate/100;
+				
+				// Compute
+				double theInterest = theLoanAmount * theAnnualInterestRateAsADecimal * theNumberOfYears;
+				
+				double theResultingTotal = theInterest + theLoanAmount;
 
 				// Send area back to the client
-				outputToClient.writeDouble(area);
+				outputToClient.writeDouble(theResultingTotal);
 
-				jta.append("Radius received from client: " + radius + '\n');
-				jta.append("Area found: " + area + '\n');
+				jta.append("Total: " + theResultingTotal + '\n');
 			}
 		}
 		catch(IOException ex) {
